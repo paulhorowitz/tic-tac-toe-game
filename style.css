@@ -1,0 +1,25 @@
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@800&display=swap');
+.heading {
+    text-align: center;
+    
+}.main{
+    margin-top: 170px;
+    display: flex;
+    justify-content: center;
+}
+#container {
+    height: 600px;
+    width: 600px;
+    display: grid;
+    grid-template: repeat(3, 1fr) / repeat(3, 1fr);
+    border: 1px solid black;
+    align-content: center;
+}
+
+.gridSquare {
+    border: 1px solid black;
+    font-size: 100px;
+    text-align: center;
+    padding-top: 35px;
+    font-family: 'Open Sans', sans-serif;
+}
