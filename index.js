@@ -8,7 +8,7 @@ const player2 = players("player 2", "O", false);
 const createGameBoard = (() => {
     'use strict';
     var gameBoard = ["", "", "", "", "", "", "", "", ""];
-
+    const playAgainEl = document.getElementById("play-again");
 
     const containerEl = document.getElementById("container")
     for (var i = 0; i < gameBoard.length; i++) {
@@ -17,8 +17,6 @@ const createGameBoard = (() => {
         gridEl.className = 'gridSquare';
         gridEl.id = 'gridSquare';
     }
-
-
 
     const gridSquares = document.querySelectorAll(".gridSquare");
 
@@ -34,7 +32,6 @@ const createGameBoard = (() => {
                         player2.turn = true;
                         var turnIndex = gridSquaresArray.indexOf(element)
                         gameBoard[turnIndex] = "X"
-                        checkWinner();
                     }
                     else {
                         element.innerHTML = "O";
@@ -42,9 +39,9 @@ const createGameBoard = (() => {
                         player1.turn = true;
                         var turnIndex = gridSquaresArray.indexOf(element)
                         gameBoard[turnIndex] = "O"
-                        checkWinner();
                     }
-
+                    checkWinner();
+                    checkForTie();
                 }
                 else {
                     console.log(gameBoard)
@@ -55,7 +52,22 @@ const createGameBoard = (() => {
         });
     })()
 
+    const checkForTie = () => {
+
+        const h2El = document.getElementById("winner-message");
+
+        const notEmpty = (value) => value != ""; 
+
+        if (gameBoard.every(notEmpty)) {
+            h2El.innerText = "It's a tie"
+            finishGame()
+        }
+    
+    }
+
     const checkWinner = () => {
+
+        const h2El = document.getElementById("winner-message");
         
         const hasX = (element) => element == "X";
         const hasO = (element) => element == "O";
@@ -70,16 +82,24 @@ const createGameBoard = (() => {
         [gameBoard[0],gameBoard[4],gameBoard[8]],
         [gameBoard[2],gameBoard[4],gameBoard[6]]
         ]
-        
+    
         winningOptions.forEach(option => {
-                if (option.every(hasX)) 
-                setTimeout(function () {
-                    alert("PLAYER 1 WINNER!!!!!")
-                }, 1)
-                else if (option.every(hasO))
-                setTimeout(function () {
-                    alert("PLAYER 2 WINNER!!!!!")
-                }, 1)
+                if (option.every(hasX)) {
+                    h2El.innerText = "Player 1 Wins!"
+                    finishGame()
+                }
+                else if (option.every(hasO)) {
+
+                    h2El.innerText = "Player 2 Wins!"
+                    finishGame()
+                }
+        })
+    }
+
+    const finishGame = () => {
+        playAgainEl.style.visibility = "visible"
+        playAgainEl.addEventListener("click", () => {
+            location.reload();
         })
     }
     return gameBoard;
